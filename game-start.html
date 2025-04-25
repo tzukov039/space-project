@@ -7,13 +7,11 @@
     body {
       margin: 0;
       padding: 0;
-      /* Используем оригинальное изображение рядом с HTML */
       background: url("36ee2531-50f0-4edc-85e9-2f7b312b3c52.png") no-repeat center center fixed;
       background-size: cover;
       font-family: Arial, sans-serif;
       color: white;
     }
-
     .dialogue-box {
       position: absolute;
       bottom: 0;
@@ -23,16 +21,13 @@
       box-sizing: border-box;
       font-size: 18px;
     }
-
     .character-name {
       font-weight: bold;
       color: #ffd700;
     }
-
     .dialogue-text {
       margin-top: 5px;
     }
-
     button {
       margin-top: 10px;
       padding: 10px 20px;
@@ -43,11 +38,9 @@
       cursor: pointer;
       font-size: 16px;
     }
-
     button:hover {
       background-color: #666;
     }
-
     #choices {
       position: absolute;
       bottom: 0;
@@ -58,18 +51,15 @@
       display: none;
       text-align: center;
     }
-
     #choices button {
       margin: 5px;
     }
-
     .top-buttons {
       position: fixed;
       top: 10px;
       right: 10px;
       z-index: 1000;
     }
-
     .top-buttons button {
       background-color: rgba(0, 0, 0, 0.5);
       color: white;
@@ -81,7 +71,6 @@
       cursor: pointer;
       transition: background-color 0.3s ease;
     }
-
     .top-buttons button:hover {
       background-color: rgba(0, 0, 0, 0.8);
     }
@@ -90,78 +79,3 @@
 <body>
   <div class="top-buttons">
     <button onclick="prevDialogue()">← Назад</button>
-    <button onclick="location.href='index.html'">⟳ Вернуться</button>
-  </div>
-
-  <div class="dialogue-box" id="dialogueBox">
-    <div class="character-name" id="characterName">Учитель:</div>
-    <div class="dialogue-text" id="dialogueText">
-      Добро пожаловать в наш музей космоса. Сегодня ты узнаешь о великих белорусских космонавтах. Ты готов?
-    </div>
-    <button id="nextButton" onclick="nextDialogue()">Далее</button>
-  </div>
-
-  <div id="choices">
-    <div class="character-name">Игрок:</div>
-    <div class="dialogue-text">О ком ты хочешь узнать сначала?</div>
-    <button onclick="chooseCosmonaut('Gagarin')">Юрий Гагарин</button>
-    <button disabled>Валентина Терешкова</button>
-    <button disabled>Пётр Климук</button>
-  </div>
-
-  <script>
-    const introDialogues = [
-      { name: "Учитель", text: "Добро пожаловать в наш музей космоса. Сегодня ты узнаешь о великих белорусских космонавтах. Ты готов?" },
-      { name: "Учитель", text: "Отлично! Но прежде, чем мы начнем, мне нужно знать, о ком ты хочешь узнать сначала." }
-    ];
-
-    const gagarinDialogues = [
-      { name: "Учитель", text: "Юрий Алексеевич Гагарин — первый человек, полетевший в космос." },
-      { name: "Учитель", text: "Он родился в 1934 году в деревне Клушино, Смоленская область." },
-      { name: "Учитель", text: "12 апреля 1961 года он совершил исторический полёт на корабле «Восток-1», который длился 108 минут." },
-      { name: "Учитель", text: "После полёта Гагарин стал Героем Советского Союза и символом целой эпохи." },
-      { name: "Учитель", text: "Посмотри на эту фотографию — она была сделена после его триумфального возвращения на Землю." },
-      { name: "Система", text: "*появляется фотография Гагарина*" },
-      { name: "Учитель", text: "Теперь давай проверим, что ты запомнил!" }
-    ];
-
-    let dialogues = [...introDialogues];
-    let current = 0;
-
-    function nextDialogue() {
-      current++;
-      if (current < dialogues.length) {
-        document.getElementById("characterName").innerText = dialogues[current].name + ":";
-        document.getElementById("dialogueText").innerText = dialogues[current].text;
-      } else {
-        document.getElementById("nextButton").style.display = "none";
-        document.getElementById("choices").style.display = "block";
-      }
-    }
-
-    function prevDialogue() {
-      if (current > 0) {
-        current--;
-        document.getElementById("characterName").innerText = dialogues[current].name + ":";
-        document.getElementById("dialogueText").innerText = dialogues[current].text;
-        document.getElementById("choices").style.display = "none";
-        document.getElementById("nextButton").style.display = "inline-block";
-      }
-    }
-
-    function chooseCosmonaut(key) {
-      if (key === 'Gagarin') {
-        dialogues = [...gagarinDialogues];
-        current = 0;
-        document.getElementById("choices").style.display = "none";
-        document.getElementById("nextButton").style.display = "inline-block";
-        nextDialogue();
-      }
-    }
-  </script>
-</body>
-</html>
-
-
-
-
