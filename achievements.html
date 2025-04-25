@@ -2,110 +2,55 @@
 <html lang="ru">
 <head>
   <meta charset="UTF-8" />
-  <title>Космическое путешествие — Новелла</title>
-  <style>
-    body {
-      margin: 0;
-      padding: 0;
-      background: url("36ee2531-50f0-4edc-85e9-2f7b312b3c52.png") no-repeat center center fixed;
-      background-size: cover;
-      font-family: Arial, sans-serif;
-      color: white;
-    }
-    .dialogue-box {
-      position: absolute;
-      bottom: 0;
-      width: 100%;
-      background-color: rgba(0, 0, 0, 0.6);
-      padding: 20px;
-      box-sizing: border-box;
-      font-size: 18px;
-    }
-    .character-name {
-      font-weight: bold;
-      color: #ffd700;
-    }
-    .dialogue-text {
-      margin-top: 5px;
-    }
-    button {
-      margin-top: 10px;
-      padding: 10px 20px;
-      background-color: #444;
-      color: white;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-      font-size: 16px;
-    }
-    button:hover {
-      background-color: #666;
-    }
-    #choices {
-      position: absolute;
-      bottom: 0;
-      width: 100%;
-      background-color: rgba(0,0,0,0.6);
-      padding: 20px;
-      box-sizing: border-box;
-      display: none;
-      text-align: center;
-    }
-    #choices button {
-      margin: 5px;
-    }
-    .top-buttons {
-      position: fixed;
-      top: 10px;
-      right: 10px;
-      z-index: 1000;
-    }
-    .top-buttons button {
-      background-color: rgba(0, 0, 0, 0.5);
-      color: white;
-      border: none;
-      padding: 6px 12px;
-      margin-left: 8px;
-      border-radius: 6px;
-      font-size: 14px;
-      cursor: pointer;
-      transition: background-color 0.3s ease;
-    }
-    .top-buttons button:hover {
-      background-color: rgba(0, 0, 0, 0.8);
-    }
-  </style>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Узнайте о достижениях Беларуси в космической сфере — спутники, международное сотрудничество, наука и образование." />
+  <title>Достижения - Космическое путешествие</title>
+  <link rel="stylesheet" href="css/style.css" />
 </head>
 <body>
-  <div class="top-buttons">
-    <button onclick="prevDialogue()">← Назад</button>
-    <button onclick="location.href='index.html'">⟳ Вернуться</button>
-  </div>
+  <header>
+    <nav>
+      <a href="index.html">Главная</a>
+      <a href="project.html">О проекте</a>
+      <a href="achievements.html">Достижения</a>
+      <a href="cosmonauts.html">Космонавты</a>
+      <a href="game.html">Игра</a>
+    </nav>
+  </header>
 
-  <div class="dialogue-box" id="dialogueBox">
-    <div class="character-name" id="characterName">Учитель:</div>
-    <div class="dialogue-text" id="dialogueText">
-      Добро пожаловать в наш музей космоса. Сегодня ты узнаешь о великих белорусских космонавтах. Ты готов?
+  <div class="background">
+    <div class="main-content">
+      <h1>Достижения космической отрасли Беларуси</h1>
+      <p>За годы развития космической отрасли Беларусь достигла значительных успехов в различных направлениях:</p>
+
+      <div class="cards-grid">
+
+        <div class="card">
+          <h2>Спутниковые технологии</h2>
+          <p>В 2012 году Беларусь запустила первый спутник "БКА" для дистанционного зондирования Земли, который используется в сельском хозяйстве и экологии. Спутник был создан с помощью российских специалистов, и планируется запуск второго спутника с улучшенной точностью.</p>
+        </div>
+
+        <div class="card">
+          <h2>Научные разработки</h2>
+          <p>Белорусские учёные разрабатывают компоненты для космических аппаратов, включая защитные материалы и сенсоры. Также проводятся исследования для условий невесомости, а некоторые разработки экспортируются.</p>
+        </div>
+
+        <div class="card">
+          <h2>Международное сотрудничество</h2>
+          <p>Беларусь сотрудничает с Россией по подготовке космонавтов и совместным экспериментам на МКС. В 2022 году подписано соглашение с Европейским космическим агентством, также ведётся сотрудничество с Китаем и Индией.</p>
+        </div>
+
+        <div class="card">
+          <h2>Образование</h2>
+          <p>Университеты, такие как БГУ и БНТУ, предлагают программы по аэрокосмической тематике. Студенты участвуют в международных конференциях, а школьники вовлекаются в изучение космоса через кружки и олимпиады.</p>
+        </div>
+
+      </div>
     </div>
-    <button id="nextButton" onclick="nextDialogue()">Далее</button>
   </div>
 
-  <div id="choices">
-    <div class="character-name">Игрок:</div>
-    <div class="dialogue-text">О ком ты хочешь узнать сначала?</div>
-    <button onclick="chooseCosmonaut('Gagarin')">Юрий Гагарин</button>
-    <button onclick="chooseCosmonaut('Tereshkova')">Валентина Терешкова</button>
-    <button onclick="chooseCosmonaut('Klimuk')">Пётр Климук</button>
-  </div>
-
-  <script>
-    const introDialogues = [
-      { name: "Учитель", text: "Добро пожаловать в наш музей космоса. Сегодня ты узнаешь о великих белорусских космонавтах. Ты готов?" },
-      { name: "Учитель", text: "Отлично! Но прежде, чем мы начнем, мне нужно знать, о ком ты хочешь узнать сначала." }
-    ];
-
-    const gagarinDialogues = [
-      { name: "Учитель", text: "Юрий Алексеевич Гагарин — первый человек, полетевший в космос." },
-      { name: "Учитель", text: "Он родился в 1934 году в деревне Клушино, Смоленская область." },
-      { name: "Учитель", text: "12 апреля 1961 года он совершил исторический полёт на корабле «Восток-
-
+  <footer>
+    <p>&copy; 2025 Космическое путешествие. Все права защищены.</p>
+  </footer>
+</body>
+</html>
