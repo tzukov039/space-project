@@ -12,7 +12,6 @@
       font-family: Arial, sans-serif;
       color: white;
     }
-
     .dialogue-box {
       position: absolute;
       bottom: 0;
@@ -22,16 +21,13 @@
       box-sizing: border-box;
       font-size: 18px;
     }
-
     .character-name {
       font-weight: bold;
       color: #ffd700;
     }
-
     .dialogue-text {
       margin-top: 5px;
     }
-
     button {
       margin-top: 10px;
       padding: 10px 20px;
@@ -42,11 +38,9 @@
       cursor: pointer;
       font-size: 16px;
     }
-
     button:hover {
       background-color: #666;
     }
-
     #choices {
       position: absolute;
       bottom: 0;
@@ -57,18 +51,15 @@
       display: none;
       text-align: center;
     }
-
     #choices button {
       margin: 5px;
     }
-
     .top-buttons {
       position: fixed;
       top: 10px;
       right: 10px;
       z-index: 1000;
     }
-
     .top-buttons button {
       background-color: rgba(0, 0, 0, 0.5);
       color: white;
@@ -80,7 +71,6 @@
       cursor: pointer;
       transition: background-color 0.3s ease;
     }
-
     .top-buttons button:hover {
       background-color: rgba(0, 0, 0, 0.8);
     }
@@ -104,8 +94,8 @@
     <div class="character-name">Игрок:</div>
     <div class="dialogue-text">О ком ты хочешь узнать сначала?</div>
     <button onclick="chooseCosmonaut('Gagarin')">Юрий Гагарин</button>
-    <button disabled>Валентина Терешкова</button>
-    <button disabled>Пётр Климук</button>
+    <button onclick="chooseCosmonaut('Tereshkova')">Валентина Терешкова</button>
+    <button onclick="chooseCosmonaut('Klimuk')">Пётр Климук</button>
   </div>
 
   <script>
@@ -118,13 +108,24 @@
       { name: "Учитель", text: "Юрий Алексеевич Гагарин — первый человек, полетевший в космос." },
       { name: "Учитель", text: "Он родился в 1934 году в деревне Клушино, Смоленская область." },
       { name: "Учитель", text: "12 апреля 1961 года он совершил исторический полёт на корабле «Восток-1», который длился 108 минут." },
-      { name: "Учитель", text: "После полёта Гагарин стал Героем Советского Союза и символом целой эпохи." },
-      { name: "Учитель", text: "Посмотри на эту фотографию — она была сделена после его триумфального возвращения на Землю." },
-      { name: "Система", text: "*появляется фотография Гагарина*" },
-      { name: "Учитель", text: "Теперь давай проверим, что ты запомнил!" }
+      { name: "Учитель", text: "После полёта Гагарин стал Героем Советского Союза и символом целой эпохи." }
     ];
 
-    let dialogues = [...introDialogues];
+    const tereshkovaDialogues = [
+      { name: "Учитель", text: "Валентина Терешкова — первая женщина-космонавт." },
+      { name: "Учитель", text: "Она полетела в космос в 1963 году на корабле «Восток-6»." },
+      { name: "Учитель", text: "За время полёта она провела почти 3 суток на орбите!" },
+      { name: "Учитель", text: "Терешкова стала символом женской силы и научного прогресса." }
+    ];
+
+    const klimukDialogues = [
+      { name: "Учитель", text: "Пётр Климук — первый белорусский космонавт." },
+      { name: "Учитель", text: "Он родился в деревне Комаровка, Брестская область." },
+      { name: "Учитель", text: "Совершил 3 полёта в космос и провёл в невесомости более 78 суток." },
+      { name: "Учитель", text: "После завершения карьеры стал руководителем подготовки космонавтов." }
+    ];
+
+    let dialogues = introDialogues;
     let current = 0;
 
     function updateDialogue() {
@@ -137,12 +138,12 @@
       if (current < dialogues.length) {
         updateDialogue();
       } else {
+        // Если это были вступительные фразы — показать выбор
         if (dialogues === introDialogues) {
           document.getElementById("choices").style.display = "block";
           document.getElementById("nextButton").style.display = "none";
         } else {
-          document.getElementById("dialogueText").innerText = "Спасибо за внимание! Вы можете выбрать другого космонавта.";
-          document.getElementById("characterName").innerText = "Учитель:";
+          // Конец диалога о выбранном космонавте — снова показываем выбор
           document.getElementById("choices").style.display = "block";
           document.getElementById("nextButton").style.display = "none";
         }
@@ -150,6 +151,7 @@
     }
 
     function prevDialogue() {
+      // Если мы в середине диалога
       if (current > 0) {
         current--;
         updateDialogue();
@@ -159,14 +161,20 @@
     }
 
     function chooseCosmonaut(key) {
+      // Подменяем массив диалогов
       if (key === 'Gagarin') {
-        dialogues = [...gagarinDialogues];
-        current = 0;
-        document.getElementById("choices").style.display = "none";
-        document.getElementById("nextButton").style.display = "inline-block";
-        nextDialogue();
+        dialogues = gagarinDialogues;
+      } else if (key === 'Tereshkova') {
+        dialogues = tereshkovaDialogues;
+      } else if (key === 'Klimuk') {
+        dialogues = klimukDialogues;
       }
+      current = 0;
+      document.getElementById("choices").style.display = "none";
+      document.getElementById("nextButton").style.display = "inline-block";
+      updateDialogue();
     }
   </script>
 </body>
 </html>
+
