@@ -9,7 +9,6 @@
     body {
       margin: 0;
       padding: 0;
-      /* фон-изображение вместо чёрного */
       background: url("36ee2531-50f0-4edc-85e9-2f7b312b3c52.png") no-repeat center center fixed;
       background-size: cover;
       color: white;
@@ -34,12 +33,7 @@
       margin-top: 5px;
     }
 
-    .button-container {
-      display: flex;
-      justify-content: flex-end; /* Выравнивание кнопок по правому краю */
-      margin-top: 10px;
-    }
-
+    /* Общие стили для кнопок */
     button {
       padding: 10px 20px;
       background-color: #444;
@@ -48,26 +42,34 @@
       border-radius: 5px;
       cursor: pointer;
       font-size: 16px;
-      margin-left: 10px;
+      transition: background-color 0.3s;
     }
 
     button:hover {
       background-color: #666;
     }
 
+    /* Стили для блока с кнопками */
+    .button-container {
+      display: flex;
+      justify-content: space-between; /* Распределяем кнопки по краям */
+      width: 100%;
+    }
+
+    /* Убираем ненужные кнопки */
+    .button-container button {
+      display: block;
+    }
+
     #choices {
       position: absolute;
       bottom: 0;
       width: 100%;
-      background-color: rgba(0,0,0,0.6);
+      background-color: rgba(0, 0, 0, 0.6);
       padding: 20px;
       box-sizing: border-box;
       display: none;
       text-align: center;
-    }
-
-    #choices button {
-      margin: 5px;
     }
   </style>
 </head>
@@ -80,57 +82,12 @@
     </div>
     <div class="button-container">
       <button id="nextButton" onclick="nextDialogue()">Далее</button>
-      <button id="backButton" onclick="previousDialogue()" style="display: none;">Назад</button>
     </div>
   </div>
 
   <div id="choices" style="display: none;">
     <div class="character-name">Игрок:</div>
     <div class="dialogue-text">О ком ты хочешь узнать сначала?</div>
-    <button id="gagarinBtn" onclick="chooseCosmonaut('Gagarin')">Юрий Гагарин</button>
-    <button id="tereshkovaBtn" onclick="chooseCosmonaut('Tereshkova')">Валентина Терешкова</button>
-    <button id="klimukBtn" onclick="chooseCosmonaut('Klimuk')">Пётр Климук</button>
-  </div>
-
-  <script>
-    const introDialogues = [
-      { name: "Учитель", text: "Добро пожаловать в наш музей космоса. Сегодня ты узнаешь о великих белорусских космонавтах. Ты готов?" },
-      { name: "Учитель", text: "Отлично! Но прежде, чем мы начнем, мне нужно знать, о ком ты хочешь узнать сначала." }
-    ];
-
-    const gagarinDialogues = [
-      { name: "Учитель", text: "Юрий Алексеевич Гагарин — первый человек, полетевший в космос." },
-      { name: "Учитель", text: "Он родился в 1934 году в деревне Клушино, Смоленская область." },
-      { name: "Учитель", text: "12 апреля 1961 года он совершил исторический полёт на корабле «Восток-1», который длился 108 минут." },
-      { name: "Учитель", text: "После полёта Гагарин стал Героем Советского Союза и символом целой эпохи." }
-    ];
-
-    const tereshkovaDialogues = [
-      { name: "Учитель", text: "Валентина Терешкова — первая женщина в космосе." },
-      { name: "Учитель", text: "Она совершила свой полет 16 июня 1963 года на космическом корабле «Восток-6»." }
-    ];
-
-    const klimukDialogues = [
-      { name: "Учитель", text: "Пётр Климук — первый белорусский космонавт." },
-      { name: "Учитель", text: "Он совершил два полета в космос в 1973 и 1978 году." }
-    ];
-
-    let dialogues = [...introDialogues];
-    let current = 0;
-
-    function nextDialogue() {
-      current++;
-      if (current < dialogues.length) {
-        document.getElementById("characterName").innerText = dialogues[current].name + ":";
-        document.getElementById("dialogueText").innerText = dialogues[current].text;
-      } else {
-        document.getElementById("nextButton").style.display = "none";
-        document.getElementById("backButton").style.display = "inline-block";  // Показываем кнопку "Назад"
-        document.getElementById("choices").style.display = "block";
-      }
-    }
-
-    function previousDialogue() {
-      if (current
-
+    <div class="button-container">
+      <button id="backButton
 
