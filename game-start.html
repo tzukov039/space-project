@@ -5,9 +5,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Космическое путешествие — Новелла</title>
   <style>
+    /* Стили для диалогов и кнопок */
     body {
       margin: 0;
       padding: 0;
+      /* фон-изображение вместо чёрного */
       background: url("36ee2531-50f0-4edc-85e9-2f7b312b3c52.png") no-repeat center center fixed;
       background-size: cover;
       color: white;
@@ -32,9 +34,13 @@
       margin-top: 5px;
     }
 
-    button {
+    .button-container {
+      display: flex;
+      justify-content: flex-end; /* Выравнивание кнопок по правому краю */
       margin-top: 10px;
-      margin-right: 10px;
+    }
+
+    button {
       padding: 10px 20px;
       background-color: #444;
       color: white;
@@ -42,6 +48,7 @@
       border-radius: 5px;
       cursor: pointer;
       font-size: 16px;
+      margin-left: 10px;
     }
 
     button:hover {
@@ -71,9 +78,10 @@
     <div class="dialogue-text" id="dialogueText">
       Добро пожаловать в наш музей космоса. Сегодня ты узнаешь о великих белорусских космонавтах. Ты готов?
     </div>
-    <button id="backButton" onclick="previousDialogue()" style="display: none;">Назад</button>
-    <button id="nextButton" onclick="nextDialogue()">Далее</button>
-    <button id="returnSiteButton" onclick="window.location.href='index.html'">Вернуться</button>
+    <div class="button-container">
+      <button id="nextButton" onclick="nextDialogue()">Далее</button>
+      <button id="backButton" onclick="previousDialogue()" style="display: none;">Назад</button>
+    </div>
   </div>
 
   <div id="choices" style="display: none;">
@@ -110,48 +118,19 @@
     let dialogues = [...introDialogues];
     let current = 0;
 
-    function updateDialogue() {
-      document.getElementById("characterName").innerText = dialogues[current].name + ":";
-      document.getElementById("dialogueText").innerText = dialogues[current].text;
-      document.getElementById("backButton").style.display = current > 0 ? "inline-block" : "none";
-    }
-
     function nextDialogue() {
-      if (current < dialogues.length - 1) {
-        current++;
-        updateDialogue();
+      current++;
+      if (current < dialogues.length) {
+        document.getElementById("characterName").innerText = dialogues[current].name + ":";
+        document.getElementById("dialogueText").innerText = dialogues[current].text;
       } else {
         document.getElementById("nextButton").style.display = "none";
-        document.getElementById("backButton").style.display = "none";
+        document.getElementById("backButton").style.display = "inline-block";  // Показываем кнопку "Назад"
         document.getElementById("choices").style.display = "block";
       }
     }
 
     function previousDialogue() {
-      if (current > 0) {
-        current--;
-        updateDialogue();
-        document.getElementById("nextButton").style.display = "inline-block";
-      }
-    }
+      if (current
 
-    function chooseCosmonaut(key) {
-      if (key === 'Gagarin') {
-        dialogues = [...gagarinDialogues];
-        document.getElementById("gagarinBtn").style.display = "none";
-      } else if (key === 'Tereshkova') {
-        dialogues = [...tereshkovaDialogues];
-        document.getElementById("tereshkovaBtn").style.display = "none";
-      } else if (key === 'Klimuk') {
-        dialogues = [...klimukDialogues];
-        document.getElementById("klimukBtn").style.display = "none";
-      }
-      current = 0;
-      document.getElementById("choices").style.display = "none";
-      document.getElementById("nextButton").style.display = "inline-block";
-      updateDialogue();
-    }
-  </script>
-</body>
-</html>
 
