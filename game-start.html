@@ -5,30 +5,22 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Космическое путешествие — Новелла</title>
   <style>
+    /* Стили для диалогов и кнопок */
     body {
       margin: 0;
       padding: 0;
-      /* Локальный фон */
-      background: url("images/star-background.jpg") no-repeat center center fixed;
-      background-size: cover;
-
-      /* Если не работает локальный, можешь раскомментировать этот:
-      background: url("https://upload.wikimedia.org/wikipedia/commons/3/3f/Hubble_ultra_deep_field.jpg") no-repeat center center fixed;
-      background-size: cover;
-      */
-
-      font-family: Arial, sans-serif;
+      background: #000;
       color: white;
+      font-family: Arial, sans-serif;
     }
 
     .dialogue-box {
       position: absolute;
       bottom: 0;
       width: 100%;
-      background-color: rgba(0, 0, 0, 0.6);
+      background-color: rgba(0, 0, 0, 0.7);
       padding: 20px;
       box-sizing: border-box;
-      font-size: 18px;
     }
 
     .character-name {
@@ -69,35 +61,82 @@
     #choices button {
       margin: 5px;
     }
-
-    .top-buttons {
-      position: fixed;
-      top: 10px;
-      right: 10px;
-      z-index: 1000;
-    }
-
-    .top-buttons button {
-      background-color: rgba(0, 0, 0, 0.5);
-      color: white;
-      border: none;
-      padding: 6px 12px;
-      margin-left: 8px;
-      border-radius: 6px;
-      font-size: 14px;
-      cursor: pointer;
-      transition: background-color 0.3s ease;
-    }
-
-    .top-buttons button:hover {
-      background-color: rgba(0, 0, 0, 0.8);
-    }
   </style>
 </head>
 <body>
-  <!-- остальной код страницы -->
+
+  <div class="dialogue-box" id="dialogueBox">
+    <div class="character-name" id="characterName">Учитель:</div>
+    <div class="dialogue-text" id="dialogueText">
+      Добро пожаловать в наш музей космоса. Сегодня ты узнаешь о великих белорусских космонавтах. Ты готов?
+    </div>
+    <button id="nextButton" onclick="nextDialogue()">Далее</button>
+  </div>
+
+  <div id="choices" style="display: none;">
+    <div class="character-name">Игрок:</div>
+    <div class="dialogue-text">О ком ты хочешь узнать сначала?</div>
+    <button id="gagarinBtn" onclick="chooseCosmonaut('Gagarin')">Юрий Гагарин</button>
+    <button id="tereshkovaBtn" onclick="chooseCosmonaut('Tereshkova')">Валентина Терешкова</button>
+    <button id="klimukBtn" onclick="chooseCosmonaut('Klimuk')">Пётр Климук</button>
+  </div>
+
+  <script>
+    const introDialogues = [
+      { name: "Учитель", text: "Добро пожаловать в наш музей космоса. Сегодня ты узнаешь о великих белорусских космонавтах. Ты готов?" },
+      { name: "Учитель", text: "Отлично! Но прежде, чем мы начнем, мне нужно знать, о ком ты хочешь узнать сначала." }
+    ];
+
+    const gagarinDialogues = [
+      { name: "Учитель", text: "Юрий Алексеевич Гагарин — первый человек, полетевший в космос." },
+      { name: "Учитель", text: "Он родился в 1934 году в деревне Клушино, Смоленская область." },
+      { name: "Учитель", text: "12 апреля 1961 года он совершил исторический полёт на корабле «Восток-1», который длился 108 минут." },
+      { name: "Учитель", text: "После полёта Гагарин стал Героем Советского Союза и символом целой эпохи." }
+    ];
+
+    const tereshkovaDialogues = [
+      { name: "Учитель", text: "Валентина Терешкова — первая женщина в космосе." },
+      { name: "Учитель", text: "Она совершила свой полет 16 июня 1963 года на космическом корабле «Восток-6»." }
+    ];
+
+    const klimukDialogues = [
+      { name: "Учитель", text: "Пётр Климук — первый белорусский космонавт." },
+      { name: "Учитель", text: "Он совершил два полета в космос в 1973 и 1978 году." }
+    ];
+
+    let dialogues = [...introDialogues];
+    let current = 0;
+
+    function nextDialogue() {
+      current++;
+      if (current < dialogues.length) {
+        document.getElementById("characterName").innerText = dialogues[current].name + ":";
+        document.getElementById("dialogueText").innerText = dialogues[current].text;
+      } else {
+        document.getElementById("nextButton").style.display = "none";
+        document.getElementById("choices").style.display = "block";
+      }
+    }
+
+    function chooseCosmonaut(key) {
+      if (key === 'Gagarin') {
+        dialogues = [...gagarinDialogues];
+        document.getElementById("gagarinBtn").disabled = true;
+        document.getElementById("gagarinBtn").style.display = "none";
+      } else if (key === 'Tereshkova') {
+        dialogues = [...tereshkovaDialogues];
+        document.getElementById("tereshkovaBtn").disabled = true;
+        document.getElementById("tereshkovaBtn").style.display = "none";
+      } else if (key === 'Klimuk') {
+        dialogues = [...klimukDialogues];
+        document.getElementById("klimukBtn").disabled = true;
+        document.getElementById("klimukBtn").style.display = "none";
+      }
+      current = 0;
+      document.getElementById("choices").style.display = "none";
+      document.getElementById("nextButton").style.display = "inline-block";
+      nextDialogue();
+    }
+  </script>
 </body>
 </html>
-
-
-
