@@ -9,7 +9,9 @@
     body {
       margin: 0;
       padding: 0;
-      background: #000;
+      /* фон-изображение вместо чёрного */
+      background: url("36ee2531-50f0-4edc-85e9-2f7b312b3c52.png") no-repeat center center fixed;
+      background-size: cover;
       color: white;
       font-family: Arial, sans-serif;
     }
@@ -121,15 +123,12 @@
     function chooseCosmonaut(key) {
       if (key === 'Gagarin') {
         dialogues = [...gagarinDialogues];
-        document.getElementById("gagarinBtn").disabled = true;
         document.getElementById("gagarinBtn").style.display = "none";
       } else if (key === 'Tereshkova') {
         dialogues = [...tereshkovaDialogues];
-        document.getElementById("tereshkovaBtn").disabled = true;
         document.getElementById("tereshkovaBtn").style.display = "none";
       } else if (key === 'Klimuk') {
         dialogues = [...klimukDialogues];
-        document.getElementById("klimukBtn").disabled = true;
         document.getElementById("klimukBtn").style.display = "none";
       }
       current = 0;
@@ -140,3 +139,4 @@
   </script>
 </body>
 </html>
+
