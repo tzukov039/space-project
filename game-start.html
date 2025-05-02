@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Космическое путешествие — Новелла</title>
+  <title>Космическое путешествие — Интерактивная экскурсия</title>
   <style>
     body {
       margin: 0;
@@ -11,32 +11,39 @@
       background: url("36ee2531-50f0-4edc-85e9-2f7b312b3c52.png") no-repeat center center fixed;
       background-size: cover;
       color: white;
-      font-family: Arial, sans-serif;
+      font-family: 'Arial', sans-serif;
+      height: 100vh;
+      overflow: hidden;
     }
 
     .dialogue-box {
       position: absolute;
       bottom: 0;
       width: 100%;
-      background-color: rgba(0, 0, 0, 0.7);
+      background-color: rgba(0, 0, 0, 0.8);
       padding: 20px;
       box-sizing: border-box;
+      border-top: 2px solid #ffd700;
     }
 
     .character-name {
       font-weight: bold;
       color: #ffd700;
+      font-size: 1.2em;
+      margin-bottom: 5px;
     }
 
     .dialogue-text {
-      margin-top: 5px;
-      line-height: 1.5;
+      margin-top: 10px;
+      line-height: 1.6;
+      font-size: 1.1em;
+      min-height: 60px;
     }
 
     .buttons-container {
       display: flex;
       justify-content: space-between;
-      margin-top: 10px;
+      margin-top: 15px;
     }
 
     .nav-buttons {
@@ -45,101 +52,201 @@
     }
 
     button {
-      padding: 10px 20px;
-      background-color: #444;
+      padding: 12px 24px;
+      background: linear-gradient(to bottom, #2a5298, #1e3c72);
       color: white;
       border: none;
       border-radius: 5px;
       cursor: pointer;
       font-size: 16px;
+      transition: all 0.3s ease;
     }
 
     button:hover {
-      background-color: #666;
+      background: linear-gradient(to bottom, #3a62a8, #2e4c82);
     }
 
     #choices {
       position: absolute;
       bottom: 0;
       width: 100%;
-      background-color: rgba(0,0,0,0.6);
+      background-color: rgba(0,0,0,0.8);
       padding: 20px;
       box-sizing: border-box;
       display: none;
       text-align: center;
+      border-top: 2px solid #ffd700;
+    }
+
+    #choices .character-name {
+      margin-bottom: 15px;
     }
 
     #choices button {
-      margin: 5px;
+      margin: 8px;
+      min-width: 200px;
+    }
+
+    /* Модальное окно */
+    #modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.9);
+      z-index: 1000;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+    }
+
+    #modalImg {
+      max-width: 90%;
+      max-height: 80%;
+      border-radius: 10px;
+      box-shadow: 0 0 30px rgba(255, 215, 0, 0.5);
+      margin-bottom: 20px;
+    }
+
+    #continueButton {
+      padding: 12px 30px;
+      background: linear-gradient(to bottom, #2a5298, #1e3c72);
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 18px;
+      transition: all 0.3s ease;
+    }
+
+    #continueButton:hover {
+      background: linear-gradient(to bottom, #3a62a8, #2e4c82);
     }
   </style>
 </head>
 <body>
 
   <div class="dialogue-box" id="dialogueBox">
-    <div class="character-name" id="characterName">Учитель:</div>
+    <div class="character-name" id="characterName">Экскурсовод:</div>
     <div class="dialogue-text" id="dialogueText">
-      Добро пожаловать в наш музей космоса. Сегодня ты узнаешь о великих белорусских космонавтах. Ты готов?
+      Добро пожаловать в наш виртуальный музей космонавтики! Сегодня вы узнаете о великих космонавтах.
     </div>
     <div class="buttons-container">
       <div class="nav-buttons">
-        <button id="backButton" onclick="previousDialogue()" style="display: none;">Назад</button>
-        <button id="nextButton" onclick="nextDialogue()">Далее</button>
+        <button id="backButton" onclick="previousDialogue()" style="display: none;">← Назад</button>
+        <button id="nextButton" onclick="nextDialogue()">Далее →</button>
       </div>
-      <button id="returnSiteButton" onclick="window.location.href='index.html'">Вернуться</button>
+      <button id="returnSiteButton" onclick="window.location.href='index.html'">Выйти</button>
     </div>
   </div>
 
   <div id="choices" style="display: none;">
-    <div class="character-name">Игрок:</div>
-    <div class="dialogue-text">О ком ты хочешь узнать сначала?</div>
+    <div class="character-name">Выберите космонавта:</div>
+    <div class="dialogue-text">Кого вы хотите изучить первым?</div>
     <button id="gagarinBtn" onclick="chooseCosmonaut('Gagarin')">Юрий Гагарин</button>
     <button id="tereshkovaBtn" onclick="chooseCosmonaut('Tereshkova')">Валентина Терешкова</button>
     <button id="klimukBtn" onclick="chooseCosmonaut('Klimuk')">Пётр Климук</button>
   </div>
 
+  <div id="modal" onclick="closeModal()">
+    <img id="modalImg" src="" />
+    <button id="continueButton" onclick="continueDialogue()">Продолжить</button>
+  </div>
+
   <script>
+    // Диалоги
     const introDialogues = [
-      { name: "Учитель", text: "Добро пожаловать в наш музей космоса. Сегодня ты узнаешь о великих белорусских космонавтах. Ты готов?" },
-      { name: "Учитель", text: "Отлично! Но прежде, чем мы начнем, мне нужно знать, о ком ты хочешь узнать сначала." }
+      { 
+        name: "Экскурсовод", 
+        text: "Добро пожаловать в наш виртуальный музей космонавтики! Сегодня вы узнаете о великих космонавтах." 
+      },
+      { 
+        name: "Экскурсовод", 
+        text: "Давайте начнём нашу экскурсию. Выберите космонавта, о котором хотели бы узнать первым." 
+      }
     ];
 
     const gagarinDialogues = [
-      { name: "Учитель", text: "Юрий Алексеевич Гагарин — первый человек, полетевший в космос." },
-      { name: "Учитель", text: "Он родился в 1934 году в деревне Клушино, Смоленская область." },
-      { name: "Учитель", text: "12 апреля 1961 года он совершил исторический полёт на корабле «Восток-1», который длился 108 минут." },
-      { name: "Учитель", text: "После полёта Гагарин стал Героем Советского Союза и символом целой эпохи." }
+      { 
+        name: "Экскурсовод", 
+        text: "Юрий Алексеевич Гагарин — первый человек в космосе.", 
+        image: "gagarin_image.jpg" 
+      },
+      { 
+        name: "Экскурсовод", 
+        text: "12 апреля 1961 года он совершил исторический полёт на корабле «Восток-1», который длился 108 минут." 
+      },
+      { 
+        name: "Экскурсовод", 
+        text: "После полёта Гагарин стал Героем Советского Союза и символом целой эпохи." 
+      }
     ];
 
     const tereshkovaDialogues = [
-      { name: "Учитель", text: "Валентина Владимировна Терешкова — первая в мире женщина-космонавт и единственная женщина, совершившая одиночный космический полёт." },
-      { name: "Учитель", text: "Она совершила свой полёт 16 июня 1963 года на космическом корабле «Восток-6», который продолжался почти трое суток (2 дня 22 часа 50 минут)." },
-      { name: "Учитель", text: "Терешкова совершила 48 витков вокруг Земли, пролетев около 1,97 миллиона километров." },
-      { name: "Учитель", text: "Интересный факт: позывной Терешковой «Чайка» стал легендарным. Во время полёта она обнаружила техническую неполадку в системе ориентации корабля, но смогла справиться с ситуацией." },
-      { name: "Учитель", text: "После космоса Терешкова стала видным общественным деятелем, доктором технических наук, профессором, а также Героем Советского Союза." },
-      { name: "Учитель", text: "В 2000 году Британская ассоциация «Ежегодная ассамблея женщин» присудила Терешковой почётный титул «Величайшая женщина XX века»." }
+      { 
+        name: "Экскурсовод", 
+        text: "Валентина Владимировна Терешкова — первая в мире женщина-космонавт.", 
+        image: "tereshkova_image.jpg" 
+      },
+      { 
+        name: "Экскурсовод", 
+        text: "Она совершила полёт 16 июня 1963 года на корабле «Восток-6», который длился почти трое суток." 
+      },
+      { 
+        name: "Экскурсовод", 
+        text: "Её позывной «Чайка» стал легендарным." 
+      }
     ];
 
     const klimukDialogues = [
-      { name: "Учитель", text: "Пётр Ильич Климук — первый белорусский космонавт, дважды Герой Советского Союза, генерал-полковник авиации." },
-      { name: "Учитель", text: "Родился 10 июля 1942 года в деревне Комаровка Брестской области Белоруссии." },
-      { name: "Учитель", text: "Совершил три космических полёта:" },
-      { name: "Учитель", text: "1. 1973 год — «Союз-13» (7 суток 20 часов)" },
-      { name: "Учитель", text: "2. 1975 год — «Союз-18» (62 суток 23 часа)" },
-      { name: "Учитель", text: "3. 1978 год — «Союз-30» (7 суток 22 часа)" },
-      { name: "Учитель", text: "Общий налёт в космосе — 78 суток 18 часов 18 минут." },
-      { name: "Учитель", text: "После космической карьеры возглавлял Центр подготовки космонавтов имени Ю.А. Гагарина (1991-2003)." },
-      { name: "Учитель", text: "Климук — автор более 80 научных работ, имеет степень доктора технических наук." },
-      { name: "Учитель", text: "Интересный факт: во время второго полёта Климук установил тогдашний рекорд продолжительности пребывания в космосе." }
+      { 
+        name: "Экскурсовод", 
+        text: "Пётр Ильич Климук — первый белорусский космонавт.", 
+        image: "klimuk_image.jpg" 
+      },
+      { 
+        name: "Экскурсовод", 
+        text: "Он совершил три космических полёта в 1970-х годах." 
+      },
+      { 
+        name: "Экскурсовод", 
+        text: "Общее время его пребывания в космосе — почти 79 суток." 
+      }
+    ];
+
+    const finalDialogues = [
+      { 
+        name: "Экскурсовод", 
+        text: "Поздравляем! Вы успешно завершили экскурсию." 
+      },
+      { 
+        name: "Экскурсовод", 
+        text: "Теперь вы знаете больше о великих космонавтах и истории космонавтики." 
+      },
+      { 
+        name: "Экскурсовод", 
+        text: "Спасибо за посещение нашего виртуального музея!" 
+      }
     ];
 
     let dialogues = [...introDialogues];
     let current = 0;
+    let selectedCosmonauts = [];
 
     function updateDialogue() {
-      document.getElementById("characterName").innerText = dialogues[current].name + ":";
-      document.getElementById("dialogueText").innerText = dialogues[current].text;
+      const d = dialogues[current];
+      document.getElementById("characterName").innerText = d.name + ":";
+      document.getElementById("dialogueText").innerText = d.text;
+      
+      // Управление кнопкой "Назад"
       document.getElementById("backButton").style.display = current > 0 ? "inline-block" : "none";
+      
+      // Если есть изображение - показываем его
+      if (d.image) {
+        showModal(d.image);
+      }
     }
 
     function nextDialogue() {
@@ -147,8 +254,20 @@
         current++;
         updateDialogue();
       } else {
-        document.getElementById("dialogueBox").style.display = "none";
-        document.getElementById("choices").style.display = "block";
+        if (dialogues === introDialogues) {
+          // После вступительных диалогов показываем выбор космонавтов
+          document.getElementById("dialogueBox").style.display = "none";
+          document.getElementById("choices").style.display = "block";
+        } else if (selectedCosmonauts.length < 3) {
+          // После изучения одного космонавта возвращаем к выбору
+          document.getElementById("dialogueBox").style.display = "none";
+          document.getElementById("choices").style.display = "block";
+        } else {
+          // После изучения всех космонавтов показываем финальные диалоги
+          dialogues = [...finalDialogues];
+          current = 0;
+          updateDialogue();
+        }
       }
     }
 
@@ -160,6 +279,9 @@
     }
 
     function chooseCosmonaut(key) {
+      selectedCosmonauts.push(key);
+      
+      // Загружаем соответствующие диалоги
       if (key === 'Gagarin') {
         dialogues = [...gagarinDialogues];
         document.getElementById("gagarinBtn").style.display = "none";
@@ -171,11 +293,29 @@
         document.getElementById("klimukBtn").style.display = "none";
       }
       
+      // Сбрасываем счетчик и обновляем диалог
       current = 0;
       document.getElementById("dialogueBox").style.display = "block";
       document.getElementById("choices").style.display = "none";
       updateDialogue();
     }
+
+    function showModal(src) {
+      document.getElementById("modalImg").src = src;
+      document.getElementById("modal").style.display = "flex";
+    }
+
+    function closeModal() {
+      document.getElementById("modal").style.display = "none";
+    }
+
+    function continueDialogue() {
+      closeModal();
+      nextDialogue();
+    }
+
+    // Инициализация
+    updateDialogue();
   </script>
 </body>
 </html>
