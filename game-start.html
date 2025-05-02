@@ -30,11 +30,21 @@
 
     .dialogue-text {
       margin-top: 5px;
+      line-height: 1.5;
+    }
+
+    .buttons-container {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 10px;
+    }
+
+    .nav-buttons {
+      display: flex;
+      gap: 10px;
     }
 
     button {
-      margin-top: 10px;
-      margin-right: 10px;
       padding: 10px 20px;
       background-color: #444;
       color: white;
@@ -71,9 +81,13 @@
     <div class="dialogue-text" id="dialogueText">
       Добро пожаловать в наш музей космоса. Сегодня ты узнаешь о великих белорусских космонавтах. Ты готов?
     </div>
-    <button id="backButton" onclick="previousDialogue()" style="display: none;">Назад</button>
-    <button id="nextButton" onclick="nextDialogue()">Далее</button>
-    <button id="returnSiteButton" onclick="window.location.href='index.html'">Вернуться</button>
+    <div class="buttons-container">
+      <div class="nav-buttons">
+        <button id="backButton" onclick="previousDialogue()" style="display: none;">Назад</button>
+        <button id="nextButton" onclick="nextDialogue()">Далее</button>
+      </div>
+      <button id="returnSiteButton" onclick="window.location.href='index.html'">Вернуться</button>
+    </div>
   </div>
 
   <div id="choices" style="display: none;">
@@ -98,13 +112,25 @@
     ];
 
     const tereshkovaDialogues = [
-      { name: "Учитель", text: "Валентина Терешкова — первая женщина в космосе." },
-      { name: "Учитель", text: "Она совершила свой полет 16 июня 1963 года на космическом корабле «Восток-6»." }
+      { name: "Учитель", text: "Валентина Владимировна Терешкова — первая в мире женщина-космонавт и единственная женщина, совершившая одиночный космический полёт." },
+      { name: "Учитель", text: "Она совершила свой полёт 16 июня 1963 года на космическом корабле «Восток-6», который продолжался почти трое суток (2 дня 22 часа 50 минут)." },
+      { name: "Учитель", text: "Терешкова совершила 48 витков вокруг Земли, пролетев около 1,97 миллиона километров." },
+      { name: "Учитель", text: "Интересный факт: позывной Терешковой «Чайка» стал легендарным. Во время полёта она обнаружила техническую неполадку в системе ориентации корабля, но смогла справиться с ситуацией." },
+      { name: "Учитель", text: "После космоса Терешкова стала видным общественным деятелем, доктором технических наук, профессором, а также Героем Советского Союза." },
+      { name: "Учитель", text: "В 2000 году Британская ассоциация «Ежегодная ассамблея женщин» присудила Терешковой почётный титул «Величайшая женщина XX века»." }
     ];
 
     const klimukDialogues = [
-      { name: "Учитель", text: "Пётр Климук — первый белорусский космонавт." },
-      { name: "Учитель", text: "Он совершил два полета в космос в 1973 и 1978 году." }
+      { name: "Учитель", text: "Пётр Ильич Климук — первый белорусский космонавт, дважды Герой Советского Союза, генерал-полковник авиации." },
+      { name: "Учитель", text: "Родился 10 июля 1942 года в деревне Комаровка Брестской области Белоруссии." },
+      { name: "Учитель", text: "Совершил три космических полёта:" },
+      { name: "Учитель", text: "1. 1973 год — «Союз-13» (7 суток 20 часов)" },
+      { name: "Учитель", text: "2. 1975 год — «Союз-18» (62 суток 23 часа)" },
+      { name: "Учитель", text: "3. 1978 год — «Союз-30» (7 суток 22 часа)" },
+      { name: "Учитель", text: "Общий налёт в космосе — 78 суток 18 часов 18 минут." },
+      { name: "Учитель", text: "После космической карьеры возглавлял Центр подготовки космонавтов имени Ю.А. Гагарина (1991-2003)." },
+      { name: "Учитель", text: "Климук — автор более 80 научных работ, имеет степень доктора технических наук." },
+      { name: "Учитель", text: "Интересный факт: во время второго полёта Климук установил тогдашний рекорд продолжительности пребывания в космосе." }
     ];
 
     let dialogues = [...introDialogues];
@@ -121,8 +147,7 @@
         current++;
         updateDialogue();
       } else {
-        document.getElementById("nextButton").style.display = "none";
-        document.getElementById("backButton").style.display = "none";
+        document.getElementById("dialogueBox").style.display = "none";
         document.getElementById("choices").style.display = "block";
       }
     }
@@ -131,7 +156,6 @@
       if (current > 0) {
         current--;
         updateDialogue();
-        document.getElementById("nextButton").style.display = "inline-block";
       }
     }
 
@@ -146,9 +170,10 @@
         dialogues = [...klimukDialogues];
         document.getElementById("klimukBtn").style.display = "none";
       }
+      
       current = 0;
+      document.getElementById("dialogueBox").style.display = "block";
       document.getElementById("choices").style.display = "none";
-      document.getElementById("nextButton").style.display = "inline-block";
       updateDialogue();
     }
   </script>
