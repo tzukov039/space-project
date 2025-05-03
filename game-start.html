@@ -117,3 +117,175 @@
   </style>
 </head>
 <body>
+
+  <div class="dialogue-box" id="dialogueBox">
+    <div class="character-name" id="characterName">Экскурсовод:</div>
+    <div class="dialogue-text" id="dialogueText">
+      Добро пожаловать в музей белорусской космонавтики! Сегодня вы узнаете о выдающихся космонавтах, связанных с Беларусью.
+    </div>
+    <div class="buttons-container">
+      <div class="nav-buttons">
+        <button id="backButton" onclick="previousDialogue()" style="display: none;">← Назад</button>
+        <button id="nextButton" onclick="nextDialogue()">Далее →</button>
+      </div>
+      <button id="returnSiteButton" onclick="window.location.href='index.html'">Выйти</button>
+    </div>
+  </div>
+
+  <div id="choices" style="display: none;">
+    <div class="character-name">Выберите космонавта:</div>
+    <div class="dialogue-text">Кого вы хотите изучить первым?</div>
+    <button id="gagarinBtn" onclick="chooseCosmonaut('Gagarin')">Юрий Гагарин</button>
+    <button id="vasilevskayaBtn" onclick="chooseCosmonaut('Vasilevskaya')">Марина Василевская</button>
+    <button id="klimukBtn" onclick="chooseCosmonaut('Klimuk')">Пётр Климук</button>
+  </div>
+
+  <div id="modal">
+    <img id="modalImg" src="" />
+    <button id="continueButton" onclick="continueDialogue()">Продолжить</button>
+  </div>
+
+  <script>
+    // Диалоги
+    const introDialogues = [
+      { 
+        name: "Экскурсовод", 
+        text: "Добро пожаловать в музей белорусской космонавтики! Сегодня вы узнаете о выдающихся космонавтах, связанных с Беларусью." 
+      },
+      { 
+        name: "Экскурсовод", 
+        text: "Давайте начнём экскурсию. Выберите космонавта, о котором хотели бы узнать первым." 
+      }
+    ];
+
+    const gagarinDialogues = [
+      { 
+        name: "Экскурсовод", 
+        text: "Юрий Гагарин - первый человек в космосе. Хотя он родился в России, его полёт в 1961 году вдохновил всю Беларусь на развитие космической программы.", 
+        image: "gagarin.jpg" 
+      },
+      { 
+        name: "Экскурсовод", 
+        text: "12 апреля 1961 года на корабле «Восток-1» он совершил исторический полёт, длившийся 108 минут." 
+      }
+    ];
+
+    const vasilevskayaDialogues = [
+      { 
+        name: "Экскурсовод", 
+        text: "Марина Василевская - первая белорусская женщина-космонавт!", 
+        image: "vasilevskaya.jpg" 
+      },
+      { 
+        name: "Экскурсовод", 
+        text: "23 марта 2024 года она отправилась на МКС в составе экспедиции «Союз МС-25» с позывным «Беларусь»." 
+      },
+      { 
+        name: "Экскурсовод", 
+        text: "Марина провела на орбите 14 дней, участвуя в 20 научных экспериментах, включая исследования с белорусскими кристаллами." 
+      }
+    ];
+
+    const klimukDialogues = [
+      { 
+        name: "Экскурсовод", 
+        text: "Пётр Климук - первый белорусский космонавт, дважды Герой Советского Союза.", 
+        image: "klimuk.jpg" 
+      },
+      { 
+        name: "Экскурсовод", 
+        text: "Родился 10 июля 1942 года в деревне Комаровка Брестской области. Совершил три космических полёта в 1970-х." 
+      }
+    ];
+
+    const finalDialogues = [
+      { 
+        name: "Экскурсовод", 
+        text: "Вы узнали о трёх поколениях космонавтов, связанных с Беларусью!" 
+      },
+      { 
+        name: "Экскурсовод", 
+        text: "От первого полёта Гагарина до современного прорыва Василевской - Беларусь всегда была частью космической истории." 
+      }
+    ];
+
+    let dialogues = [...introDialogues];
+    let current = 0;
+    let selectedCosmonauts = [];
+
+    function updateDialogue() {
+      const d = dialogues[current];
+      document.getElementById("characterName").innerText = d.name + ":";
+      document.getElementById("dialogueText").innerText = d.text;
+      document.getElementById("backButton").style.display = current > 0 ? "inline-block" : "none";
+
+      if (d.image) {
+        showModal(d.image);
+      }
+    }
+
+    function nextDialogue() {
+      if (current < dialogues.length - 1) {
+        current++;
+        updateDialogue();
+      } else {
+        if (dialogues === introDialogues) {
+          document.getElementById("dialogueBox").style.display = "none";
+          document.getElementById("choices").style.display = "block";
+        } else if (selectedCosmonauts.length < 3) {
+          document.getElementById("dialogueBox").style.display = "none";
+          document.getElementById("choices").style.display = "block";
+        } else {
+          dialogues = [...finalDialogues];
+          current = 0;
+          updateDialogue();
+        }
+      }
+    }
+
+    function previousDialogue() {
+      if (current > 0) {
+        current--;
+        updateDialogue();
+      }
+    }
+
+    function chooseCosmonaut(key) {
+      selectedCosmonauts.push(key);
+      
+      if (key === 'Gagarin') {
+        dialogues = [...gagarinDialogues];
+        document.getElementById("gagarinBtn").style.display = "none";
+      } else if (key === 'Vasilevskaya') {
+        dialogues = [...vasilevskayaDialogues];
+        document.getElementById("vasilevskayaBtn").style.display = "none";
+      } else if (key === 'Klimuk') {
+        dialogues = [...klimukDialogues];
+        document.getElementById("klimukBtn").style.display = "none";
+      }
+      
+      current = 0;
+      document.getElementById("dialogueBox").style.display = "block";
+      document.getElementById("choices").style.display = "none";
+      updateDialogue();
+    }
+
+    function showModal(imgSrc) {
+      document.getElementById("modalImg").src = imgSrc;
+      document.getElementById("modal").style.display = "flex";
+    }
+
+    function closeModal() {
+      document.getElementById("modal").style.display = "none";
+    }
+
+    function continueDialogue() {
+      closeModal();
+      nextDialogue();
+    }
+
+    // Запуск экскурсии
+    updateDialogue();
+  </script>
+</body>
+</html>
