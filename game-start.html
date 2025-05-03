@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Космическое путешествие — Интерактивная экскурсия</title>
+  <title>Космическое путешествие — Белорусские космонавты</title>
   <style>
     body {
       margin: 0;
@@ -78,16 +78,11 @@
       border-top: 2px solid #ffd700;
     }
 
-    #choices .character-name {
-      margin-bottom: 15px;
-    }
-
     #choices button {
       margin: 8px;
       min-width: 200px;
     }
 
-    /* Модальное окно */
     #modal {
       display: none;
       position: fixed;
@@ -118,204 +113,7 @@
       border-radius: 5px;
       cursor: pointer;
       font-size: 18px;
-      transition: all 0.3s ease;
-    }
-
-    #continueButton:hover {
-      background: linear-gradient(to bottom, #3a62a8, #2e4c82);
     }
   </style>
 </head>
 <body>
-
-  <div class="dialogue-box" id="dialogueBox">
-    <div class="character-name" id="characterName">Экскурсовод:</div>
-    <div class="dialogue-text" id="dialogueText">
-      Добро пожаловать в наш виртуальный музей космонавтики! Сегодня вы узнаете о великих космонавтах.
-    </div>
-    <div class="buttons-container">
-      <div class="nav-buttons">
-        <button id="backButton" onclick="previousDialogue()" style="display: none;">← Назад</button>
-        <button id="nextButton" onclick="nextDialogue()">Далее →</button>
-      </div>
-      <button id="returnSiteButton" onclick="window.location.href='index.html'">Выйти</button>
-    </div>
-  </div>
-
-  <div id="choices" style="display: none;">
-    <div class="character-name">Выберите космонавта:</div>
-    <div class="dialogue-text">Кого вы хотите изучить первым?</div>
-    <button id="gagarinBtn" onclick="chooseCosmonaut('Gagarin')">Юрий Гагарин</button>
-    <button id="tereshkovaBtn" onclick="chooseCosmonaut('Tereshkova')">Валентина Терешкова</button>
-    <button id="klimukBtn" onclick="chooseCosmonaut('Klimuk')">Пётр Климук</button>
-  </div>
-
-  <div id="modal" onclick="closeModal()">
-    <img id="modalImg" src="" />
-    <button id="continueButton" onclick="continueDialogue()">Продолжить</button>
-  </div>
-
-  <script>
-    // Диалоги
-    const introDialogues = [
-      { 
-        name: "Экскурсовод", 
-        text: "Добро пожаловать в наш виртуальный музей космонавтики! Сегодня вы узнаете о великих космонавтах." 
-      },
-      { 
-        name: "Экскурсовод", 
-        text: "Давайте начнём нашу экскурсию. Выберите космонавта, о котором хотели бы узнать первым." 
-      }
-    ];
-
-    const gagarinDialogues = [
-      { 
-        name: "Экскурсовод", 
-        text: "Юрий Алексеевич Гагарин — первый человек в космосе.", 
-        image: "gagarin_image.jpg" 
-      },
-      { 
-        name: "Экскурсовод", 
-        text: "12 апреля 1961 года он совершил исторический полёт на корабле «Восток-1», который длился 108 минут." 
-      },
-      { 
-        name: "Экскурсовод", 
-        text: "После полёта Гагарин стал Героем Советского Союза и символом целой эпохи." 
-      }
-    ];
-
-    const tereshkovaDialogues = [
-      { 
-        name: "Экскурсовод", 
-        text: "Валентина Владимировна Терешкова — первая в мире женщина-космонавт.", 
-        image: "tereshkova_image.jpg" 
-      },
-      { 
-        name: "Экскурсовод", 
-        text: "Она совершила полёт 16 июня 1963 года на корабле «Восток-6», который длился почти трое суток." 
-      },
-      { 
-        name: "Экскурсовод", 
-        text: "Её позывной «Чайка» стал легендарным." 
-      }
-    ];
-
-    const klimukDialogues = [
-      { 
-        name: "Экскурсовод", 
-        text: "Пётр Ильич Климук — первый белорусский космонавт.", 
-        image: "klimuk_image.jpg" 
-      },
-      { 
-        name: "Экскурсовод", 
-        text: "Он совершил три космических полёта в 1970-х годах." 
-      },
-      { 
-        name: "Экскурсовод", 
-        text: "Общее время его пребывания в космосе — почти 79 суток." 
-      }
-    ];
-
-    const finalDialogues = [
-      { 
-        name: "Экскурсовод", 
-        text: "Поздравляем! Вы успешно завершили экскурсию." 
-      },
-      { 
-        name: "Экскурсовод", 
-        text: "Теперь вы знаете больше о великих космонавтах и истории космонавтики." 
-      },
-      { 
-        name: "Экскурсовод", 
-        text: "Спасибо за посещение нашего виртуального музея!" 
-      }
-    ];
-
-    let dialogues = [...introDialogues];
-    let current = 0;
-    let selectedCosmonauts = [];
-
-    function updateDialogue() {
-      const d = dialogues[current];
-      document.getElementById("characterName").innerText = d.name + ":";
-      document.getElementById("dialogueText").innerText = d.text;
-      
-      // Управление кнопкой "Назад"
-      document.getElementById("backButton").style.display = current > 0 ? "inline-block" : "none";
-      
-      // Если есть изображение - показываем его
-      if (d.image) {
-        showModal(d.image);
-      }
-    }
-
-    function nextDialogue() {
-      if (current < dialogues.length - 1) {
-        current++;
-        updateDialogue();
-      } else {
-        if (dialogues === introDialogues) {
-          // После вступительных диалогов показываем выбор космонавтов
-          document.getElementById("dialogueBox").style.display = "none";
-          document.getElementById("choices").style.display = "block";
-        } else if (selectedCosmonauts.length < 3) {
-          // После изучения одного космонавта возвращаем к выбору
-          document.getElementById("dialogueBox").style.display = "none";
-          document.getElementById("choices").style.display = "block";
-        } else {
-          // После изучения всех космонавтов показываем финальные диалоги
-          dialogues = [...finalDialogues];
-          current = 0;
-          updateDialogue();
-        }
-      }
-    }
-
-    function previousDialogue() {
-      if (current > 0) {
-        current--;
-        updateDialogue();
-      }
-    }
-
-    function chooseCosmonaut(key) {
-      selectedCosmonauts.push(key);
-      
-      // Загружаем соответствующие диалоги
-      if (key === 'Gagarin') {
-        dialogues = [...gagarinDialogues];
-        document.getElementById("gagarinBtn").style.display = "none";
-      } else if (key === 'Tereshkova') {
-        dialogues = [...tereshkovaDialogues];
-        document.getElementById("tereshkovaBtn").style.display = "none";
-      } else if (key === 'Klimuk') {
-        dialogues = [...klimukDialogues];
-        document.getElementById("klimukBtn").style.display = "none";
-      }
-      
-      // Сбрасываем счетчик и обновляем диалог
-      current = 0;
-      document.getElementById("dialogueBox").style.display = "block";
-      document.getElementById("choices").style.display = "none";
-      updateDialogue();
-    }
-
-    function showModal(src) {
-      document.getElementById("modalImg").src = src;
-      document.getElementById("modal").style.display = "flex";
-    }
-
-    function closeModal() {
-      document.getElementById("modal").style.display = "none";
-    }
-
-    function continueDialogue() {
-      closeModal();
-      nextDialogue();
-    }
-
-    // Инициализация
-    updateDialogue();
-  </script>
-</body>
-</html>
