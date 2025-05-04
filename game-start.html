@@ -1,120 +1,136 @@
 <!DOCTYPE html>
+
 <html lang="ru">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Космическое путешествие — Белорусские космонавты</title>
-  <style>
-    body {
-      margin: 0;
-      padding: 0;
-      background: url("36ee2531-50f0-4edc-85e9-2f7b312b3c52.png") no-repeat center center fixed;
-      background-size: cover;
-      color: white;
-      font-family: 'Arial', sans-serif;
-      height: 100vh;
-      overflow: hidden;
-    }
+<style>
+  body {
+    margin: 0;
+    padding: 0;
+    background: url("36ee2531-50f0-4edc-85e9-2f7b312b3c52.png") no-repeat center center fixed;
+    background-size: cover;
+    color: white;
+    font-family: 'Arial', sans-serif;
+    height: 100vh;
+    overflow: hidden;
+  }
 
-    .dialogue-box {
-      position: absolute;
-      bottom: 0;
-      width: 100%;
-      background-color: rgba(0, 0, 0, 0.8);
-      padding: 20px;
-      box-sizing: border-box;
-      border-top: 2px solid #ffd700;
-    }
+  .dialogue-box {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    padding: 20px;
+    box-sizing: border-box;
+    border-top: 2px solid #ffd700;
+  }
 
-    .character-name {
-      font-weight: bold;
-      color: #ffd700;
-      font-size: 1.2em;
-      margin-bottom: 5px;
-    }
+  .character-name {
+    font-weight: bold;
+    color: #ffd700;
+    font-size: 1.2em;
+    margin-bottom: 5px;
+  }
 
-    .dialogue-text {
-      margin-top: 10px;
-      line-height: 1.6;
-      font-size: 1.1em;
-      min-height: 60px;
-    }
+  .dialogue-text {
+    margin-top: 10px;
+    line-height: 1.6;
+    font-size: 1.1em;
+    min-height: 60px;
+  }
 
-    .buttons-container {
-      display: flex;
-      justify-content: space-between;
-      margin-top: 15px;
-    }
+  .buttons-container {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 15px;
+  }
 
-    .nav-buttons {
-      display: flex;
-      gap: 10px;
-    }
+  .nav-buttons {
+    display: flex;
+    gap: 10px;
+  }
 
-    button {
-      padding: 12px 24px;
-      background: linear-gradient(to bottom, #2a5298, #1e3c72);
-      color: white;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-      font-size: 16px;
-      transition: all 0.3s ease;
-    }
+  button {
+    padding: 12px 24px;
+    background: linear-gradient(to bottom, #2a5298, #1e3c72);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: all 0.3s ease;
+  }
 
-    button:hover {
-      background: linear-gradient(to bottom, #3a62a8, #2e4c82);
-    }
+  button:hover {
+    background: linear-gradient(to bottom, #3a62a8, #2e4c82);
+  }
 
-    #choices {
-      position: absolute;
-      bottom: 0;
-      width: 100%;
-      background-color: rgba(0,0,0,0.8);
-      padding: 20px;
-      box-sizing: border-box;
-      display: none;
-      text-align: center;
-      border-top: 2px solid #ffd700;
-    }
+  #choices {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    background-color: rgba(0,0,0,0.8);
+    padding: 20px;
+    box-sizing: border-box;
+    display: none;
+    text-align: center;
+    border-top: 2px solid #ffd700;
+  }
 
-    #choices button {
-      margin: 8px;
-      min-width: 200px;
-    }
+  #choices button {
+    margin: 8px;
+    min-width: 200px;
+  }
 
-    #modal {
-      display: none;
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background-color: rgba(0, 0, 0, 0.9);
-      z-index: 1000;
-      justify-content: center;
-      align-items: center;
-      flex-direction: column;
-    }
+  #modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.9);
+    z-index: 1000;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+  }
 
-    #modalImg {
-      max-width: 90%;
-      max-height: 80%;
-      border-radius: 10px;
-      box-shadow: 0 0 30px rgba(255, 215, 0, 0.5);
-      margin-bottom: 20px;
-    }
+  #modalImg {
+    max-width: 90%;
+    max-height: 80%;
+    border-radius: 10px;
+    box-shadow: 0 0 30px rgba(255, 215, 0, 0.5);
+    margin-bottom: 20px;
+  }
 
-    #continueButton {
-      padding: 12px 30px;
-      background: linear-gradient(to bottom, #2a5298, #1e3c72);
-      color: white;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-      font-size: 18px;
-    }
-  </style>
+  #continueButton {
+    padding: 12px 30px;
+    background: linear-gradient(to bottom, #2a5298, #1e3c72);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 18px;
+  }
+  #modalImg {
+  max-width: 90%;
+  max-height: 80%;
+  border-radius: 10px;
+  box-shadow: 0 0 30px rgba(255, 215, 0, 0.5);
+  margin-bottom: 20px;
+  transition: all 0.3s ease;
+}
+
+/* Класс для увеличенных изображений */
+#modalImg.large-img {
+  max-width: 100%;
+  max-height: 95%;
+}
+
+</style>
 </head>
 <body>
 
@@ -159,32 +175,34 @@
     ];
 
     const gagarinDialogues = [
-      { 
-        name: "Экскурсовод", 
-        text: "Юрий Гагарин - первый человек в космосе. Хотя он родился в России, его полёт в 1961 году вдохновил всю Беларусь на развитие космической программы.", 
-        image: "gagarin.jpg" 
-      },
-      { 
-        name: "Экскурсовод", 
-        text: "12 апреля 1961 года на корабле «Восток-1» он совершил исторический полёт, длившийся 108 минут." 
-      }
-    ];
+  { 
+    name: "Экскурсовод", 
+    text: "Юрий Гагарин — первый человек в космосе. Хотя он родился в России, его полёт в 1961 году вдохновил всю Беларусь на развитие космической программы.", 
+    image: "fot.for.game/гагарин фото 1.jpg" 
+  },
+  { 
+    name: "Экскурсовод", 
+    text: "12 апреля 1961 года на корабле «Восток-1» он совершил исторический полёт, длившийся 108 минут." 
+  }
+];
 
-    const vasilevskayaDialogues = [
-      { 
-        name: "Экскурсовод", 
-        text: "Марина Василевская - первая белорусская женщина-космонавт!", 
-        image: "vasilevskaya.jpg" 
-      },
-      { 
-        name: "Экскурсовод", 
-        text: "23 марта 2024 года она отправилась на МКС в составе экспедиции «Союз МС-25» с позывным «Беларусь»." 
-      },
-      { 
-        name: "Экскурсовод", 
-        text: "Марина провела на орбите 14 дней, участвуя в 20 научных экспериментах, включая исследования с белорусскими кристаллами." 
-      }
-    ];
+
+   const vasilevskayaDialogues = [
+  { 
+    name: "Экскурсовод", 
+    text: "Марина Василевская — первая белорусская женщина-космонавт!", 
+    image: "fot.for.game/василевкая1.jpg" 
+  },
+  { 
+    name: "Экскурсовод", 
+    text: "23 марта 2024 года она отправилась на МКС в составе экспедиции «Союз МС-25» с позывным «Беларусь»." 
+  },
+  { 
+    name: "Экскурсовод", 
+    text: "Марина провела на орбите 14 дней, участвуя в 20 научных экспериментах, включая исследования с белорусскими кристаллами." 
+  }
+];
+
 
     const klimukDialogues = [
       { 
@@ -286,6 +304,22 @@
 
     // Запуск экскурсии
     updateDialogue();
+	function showModal(imgSrc) {
+  const modal = document.getElementById('modal');
+  const img = document.getElementById('modalImg');
+  img.src = imgSrc;
+
+  // Если это фото Василевской — добавляем класс для увеличения
+  if (imgSrc.includes('василевкая1')) {
+    img.classList.add('large-img');
+  } else {
+    img.classList.remove('large-img');
+  }
+
+  modal.style.display = 'flex';
+}
+
   </script>
+
 </body>
 </html>
