@@ -161,7 +161,14 @@
     <button id="continueButton" onclick="continueDialogue()">Продолжить</button>
   </div>
 
-  <script>
+<script>
+const finalDialogues = [
+  { name: "Экскурсовод", text: "Отлично! Вы изучили всех космонавтов. Готовы пройти небольшой тест?" }
+];
+
+
+
+
     // Диалоги
     const introDialogues = [
       { 
@@ -291,6 +298,7 @@ const klimukDialogues = [
     let dialogues = [...introDialogues];
     let current = 0;
     let selectedCosmonauts = [];
+	
 
     function updateDialogue() {
       const d = dialogues[current];
@@ -303,24 +311,29 @@ const klimukDialogues = [
       }
     }
 
-    function nextDialogue() {
-      if (current < dialogues.length - 1) {
-        current++;
-        updateDialogue();
-      } else {
-        if (dialogues === introDialogues) {
-          document.getElementById("dialogueBox").style.display = "none";
-          document.getElementById("choices").style.display = "block";
-        } else if (selectedCosmonauts.length < 3) {
-          document.getElementById("dialogueBox").style.display = "none";
-          document.getElementById("choices").style.display = "block";
-        } else {
-          dialogues = [...finalDialogues];
-          current = 0;
-          updateDialogue();
-        }
-      }
+   function nextDialogue() {
+  if (current < dialogues.length - 1) {
+    current++;
+    updateDialogue();
+  } else {
+    if (dialogues === introDialogues) {
+      document.getElementById("dialogueBox").style.display = "none";
+      document.getElementById("choices").style.display = "block";
+    } else if (selectedCosmonauts.length < 3) {
+      document.getElementById("dialogueBox").style.display = "none";
+      document.getElementById("choices").style.display = "block";
+    } else {
+      dialogues = [...finalDialogues];
+      current = 0;
+      updateDialogue();
+      
+      // Показать кнопку для перехода к тесту после финального диалога
+      document.getElementById("nextButton").innerText = "Перейти к тесту →";
+      document.getElementById("nextButton").onclick = goToTest;
     }
+  }
+}
+
 
     function previousDialogue() {
       if (current > 0) {
@@ -362,15 +375,53 @@ const klimukDialogues = [
       closeModal();
       nextDialogue();
     }
+	
+  // Запуск экскурсии
+  updateDialogue();
 
-    // Запуск экскурсии
-    updateDialogue();
-	function showModal(imgSrc) {
+  // Функция для отображения модального окна с изображением
+  function showModal(imgSrc) {
+    const modal = document.getElementById('modal');
+    const img = document.getElementById('modalImg');
+    img.src = imgSrc;
+
+    // Если это фото Василевской — добавляем класс для увеличения
+    if (imgSrc.includes('василевкая1')) {
+      img.classList.add('large-img');
+    } else {
+      img.classList.remove('large-img');
+    }
+
+    modal.style.display = 'flex';
+  }
+
+  // Эта функция будет вызываться, когда вся информация будет прочитана
+  function showNextButton() {
+    document.getElementById('nextButton').style.display = 'block';
+  }
+
+  // Функция для перехода на страницу с тестом
+  function goToTest() {
+    window.location.href = 'test.html';  // Замените на название файла с тестом
+  }
+
+  // Когда весь материал о космонавтах прочитан, вызываем эту функцию
+  // Пример: 
+  // showNextButton();
+  function goToTest() {
+  window.location.href = 'test.html'; // Замените на актуальное имя файла
+}
+
+function showNextButton() {
+  document.getElementById('nextButton').style.display = 'block';
+}
+
+// Обновлённый showModal с обработкой большого изображения
+function showModal(imgSrc) {
   const modal = document.getElementById('modal');
   const img = document.getElementById('modalImg');
   img.src = imgSrc;
 
-  // Если это фото Василевской — добавляем класс для увеличения
   if (imgSrc.includes('василевкая1')) {
     img.classList.add('large-img');
   } else {
@@ -380,10 +431,18 @@ const klimukDialogues = [
   modal.style.display = 'flex';
 }
 
-  </script>
+</script>
+
+<!-- Кнопка перехода к тесту, скрыта до вызова showNextButton() -->
+
+  {
+    name: "Экскурсовод",
+    text: "Отлично! Вы изучили всех космонавтов. Готовы пройти небольшой тест?"
+  }
+];
+
 
 </body>
 </html>
-
 
 
