@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>Космический тест</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background: url("36ee2531-50f0-4edc-85e9-2f7b312b3c52.png") no-repeat center center fixed;
+      background-size: cover;
+      color: white;
+      font-family: 'Arial', sans-serif;
+    }
+
+    .test-container {
+      max-width: 800px;
+      margin: 80px auto;
+      background: rgba(0, 0, 0, 0.8);
+      padding: 30px;
+      border-radius: 10px;
+      border: 2px solid #ffd700;
+    }
+
+    h1 {
+      text-align: center;
+      color: #ffd700;
+    }
+
+    .question {
+      margin-bottom: 20px;
+      font-size: 1.2em;
+    }
+
+    .answers button {
+      display: block;
+      margin: 10px 0;
+      padding: 10px 20px;
+      background: linear-gradient(to bottom, #2a5298, #1e3c72);
+      color: white;
+      border: none;
+      border-radius: 5px;
+      font-size: 1em;
+      cursor: pointer;
+    }
+
+    .answers button:hover {
+      background: linear-gradient(to bottom, #3a62a8, #2e4c82);
+    }
+  </style>
+</head>
+<body>
+  <div class="test-container">
+    <h1>Космический тест</h1>
+    <div class="question" id="question">Здесь будет первый вопрос...</div>
+    <div class="answers" id="answers">
+      <!-- Кнопки с ответами будут добавлены скриптом -->
+    </div>
+  </div>
+
+  <script>
+    const questions = [
+      {
+        text: "Кто был первым человеком в космосе?",
+        options: ["Юрий Гагарин", "Пётр Климук", "Марина Василевская"],
+        correct: 0
+      },
+      {
+        text: "Сколько часов провела Марина Василевская на орбите?",
+        options: ["14", "334", "78"],
+        correct: 1
+      },
+      {
+        text: "Сколько полётов совершил Пётр Климук?",
+        options: ["Один", "Два", "Три"],
+        correct: 2
+      }
+    ];
+
+    let currentQuestion = 0;
+
+    function showQuestion() {
+      const q = questions[currentQuestion];
+      document.getElementById('question').innerText = q.text;
+
+      const answersDiv = document.getElementById('answers');
+      answersDiv.innerHTML = '';
+      q.options.forEach((option, index) => {
+        const btn = document.createElement('button');
+        btn.innerText = option;
+        btn.onclick = () => checkAnswer(index);
+        answersDiv.appendChild(btn);
+      });
+    }
+
+    function checkAnswer(selected) {
+      const isCorrect = selected === questions[currentQuestion].correct;
+      alert(isCorrect ? "Верно!" : "Неверно.");
+      currentQuestion++;
+      if (currentQuestion < questions.length) {
+        showQuestion();
+      } else {
+        document.getElementById('question').innerText = "Тест завершён! Спасибо!";
+        document.getElementById('answers').innerHTML = '';
+      }
+    }
+
+    showQuestion();
+  </script>
+</body>
+</html>
