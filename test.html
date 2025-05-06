@@ -157,8 +157,9 @@
     correct: 0
   }
 ];
+let currentQuestion = 0;
+let score = 0; // ← добавили подсчёт правильных ответов
 
-    let currentQuestion = 0;
 
     function showQuestion() {
       const q = questions[currentQuestion];
@@ -174,17 +175,36 @@
       });
     }
 
-    function checkAnswer(selected) {
-      const isCorrect = selected === questions[currentQuestion].correct;
-      alert(isCorrect ? "Верно!" : "Неверно.");
-      currentQuestion++;
-      if (currentQuestion < questions.length) {
-        showQuestion();
-      } else {
-        document.getElementById('question').innerText = "Тест завершён! Спасибо!";
-        document.getElementById('answers').innerHTML = '';
-      }
-    }
+  function checkAnswer(selected) {
+  const isCorrect = selected === questions[currentQuestion].correct;
+  if (isCorrect) score++;
+
+  alert(isCorrect ? "Верно!" : "Неверно.");
+  currentQuestion++;
+
+  if (currentQuestion < questions.length) {
+    showQuestion();
+  } else {
+    document.getElementById('question').innerText =
+      `Тест завершён! Вы ответили правильно на ${score} из ${questions.length} вопросов.`;
+
+    const answersDiv = document.getElementById('answers');
+    answersDiv.innerHTML = '';
+
+    // Создаём кнопку перезапуска
+    const restartBtn = document.createElement('button');
+    restartBtn.innerText = "Пройти тест заново";
+    restartBtn.onclick = restartTest;
+    answersDiv.appendChild(restartBtn);
+  }
+}
+function restartTest() {
+  currentQuestion = 0;
+  score = 0;
+  showQuestion();
+}
+
+
 
     showQuestion();
   </script>
