@@ -47,9 +47,30 @@
     .answers button:hover {
       background: linear-gradient(to bottom, #3a62a8, #2e4c82);
     }
+	#exit-btn {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  padding: 10px 20px;
+  background: #8b0000;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 1em;
+  cursor: pointer;
+  z-index: 1000;
+}
+
+#exit-btn:hover {
+  background: #a80000;
+}
+
   </style>
 </head>
 <body>
+<button id="exit-btn" onclick="location.href='index.html'">⟵ Выйти</button>
+<button id="exit-btn" onclick="location.href='index.html'">⟵ Выйти</button>
+
   <div class="test-container">
     <h1>Космический тест</h1>
     <div class="question" id="question">Здесь будет первый вопрос...</div>
